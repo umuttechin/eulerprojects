@@ -10,8 +10,7 @@ def sma_multp(n):
                 tmp*=i/j
             else:
                 temp*=j
-                x*=temp
-                temp=1
+                ""
     print(total)
     print(tmp)
     print(temp)
