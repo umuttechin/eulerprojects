@@ -9,5 +9,5 @@ def findPrime(n):
             total*=i
             print(i)
     print(total)
-findPrime(600851475143  )
+findPrime(600851475143)
 
