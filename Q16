@@ -1,0 +1,4 @@
+from math import pow
+if __name__ == "__main__":
+    power_list = [int(x) for x in list(str(int(pow(2,1000))))]
+    print(sum(power_list))
