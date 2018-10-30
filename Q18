@@ -1,0 +1,36 @@
+def check_next_adj(list_par,place):
+    return [max(list_par[int(place)], list_par[int(place)+1]), list(list_par).index(int(max(list_par[int(place)], list_par[int(place)+1])))]
+
+def check_duplicate_or_get_index(list_par, selected_number):
+    list_index = [idx for idx, element in enumerate(list_par) if element == selected_number]
+    if len(list_index) > 1:
+        return list_index
+    else:
+        return False
+
+if __name__ == "__main__":
+    with open('matrix') as f:
+        doc = f.read().split("\n")
+        max_numbers = []
+        init_index = 0
+
+        for line in doc:
+            if len(line.split(" ")) == 1:
+                max_numbers.append(int(line.split(" ")[0]))
+
+            elif len(line.split(" ")) != 1:
+                max_number = check_next_adj(line.split(" "), init_index)
+
+                if check_duplicate_or_get_index(line.split(" "), max_number) is False:
+                    init_index = line.split(" ").index(max_number)
+                    max_numbers.append(int(max_number))
+                else:
+                    for indexes in check_duplicate_or_get_index(line.split(" "), max_number):
+                        if abs(indexes-init_index) == 1:
+                            init_index = indexes
+                            max_numbers.append(int(max_number))
+
+
+
+    #print(((max_numbers)))
+
