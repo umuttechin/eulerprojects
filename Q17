@@ -1,44 +1,44 @@
-numbers_list = ["one", "two", "three", "four", "five",
-                "six", "seven", "eight", "nine"]
-tens_dict  = {10:"ten", 20:"twenty", 30:"thirthy", 40:"fourty", 50:"fifty",
-              60: "sixty", 70: "seventy", 80: "eighthy", 90: "ninety"}
-tens_num_dict = {10:"ten", 11:"eleven", 12:"twelve", 13:"thirteen", 14:"fourteen", 15:"fifteen",
+numbers_list = {1:"one", 2:"two", 3:"three", 4:"four", 5:"five",
+                 6:"six", 7:"seven", 8:"eight", 9:"nine",10:"ten",
+                 11:"eleven", 12:"twelve", 13:"thirteen", 14:"fourteen", 15:"fifteen",
                  16:"sixteen", 17:"seventeen", 18:"eighteen", 19:"nineteen"}
-num_dict = dict((enumerate(numbers_list, start = 1)))
-
+tens_dict  = {10:"ten", 20:"twenty", 30:"thirty", 40:"forty", 50:"fifty",
+              60: "sixty", 70: "seventy", 80: "eighty", 90: "ninety"}
 
 def num_2_let(number):
-    if number < 10:
-        return str(num_dict[number])
-    elif 10 <= number < 20:
-        return str(tens_num_dict[number])
-    elif 20 <= number < 100:
-        if number % 10 == 0:
+    if number < 100:
+        if number in numbers_list:
+            return str(numbers_list[number])
+        elif number in tens_dict:
             return str(tens_dict[number])
         else:
-            return str(tens_dict[(number//10)*10]) + " and " + str(num_dict[number%10])
-    elif number >= 100:
+            return str(tens_dict[(number//10)*10]) + "" + str(numbers_list[number%10])
+    else:
+        hundreds_part = number // 100
         if number % 100 == 0:
-            hundreds = number // 100
-            if hundreds == 1:
-                return "one hundred"
-            else:
-                return str(num_dict[hundreds]) + " hundreds"
+            if hundreds_part == 1: return str(numbers_list[hundreds_part]) + "hundred"
+            else: return str(numbers_list[hundreds_part]) + "hundred"
         else:
-            hundreds = number // 100
-            hundreds_rest = number % 100
-            if hundreds_rest % 10 == 0:
-                if hundreds == 1:
-                    if hundreds_rest % 10 == 0:
-                        return str(num_dict[hundreds]) + " hundred and " + str(tens_dict[hundreds_rest])
+            tens_part_rest = number % 100
+            if hundreds_part == 1:
+                if tens_part_rest in numbers_list:
+                    return str(numbers_list[hundreds_part]) + "hundred and" + str(numbers_list[tens_part_rest])
+                elif tens_part_rest in tens_dict:
+                    return str(numbers_list[hundreds_part]) + "hundred and" + str(tens_dict[tens_part_rest])
                 else:
-                    if hundreds_rest % 10 == 0:
-                        return str(num_dict[hundreds]) + " hundreds and " + str(tens_dict[hundreds_rest])
+                    return str(numbers_list[hundreds_part]) + "hundred and" + str(tens_dict[(tens_part_rest // 10) * 10]) + " " + str(numbers_list[tens_part_rest % 10])
             else:
-                tens_rest = hundreds_rest % 10
-                hundreds_rest_multipled = int(hundreds_rest / 10) * 10
-                return str(num_dict[hundreds]) + " hundreds and " + str(tens_dict[hundreds_rest_multipled]) + "-" + str(num_dict[tens_rest])
+                if tens_part_rest in numbers_list:
+                    return str(numbers_list[hundreds_part]) + "hundred and" + str(numbers_list[tens_part_rest])
+                elif tens_part_rest in tens_dict:
+                    return str(numbers_list[hundreds_part]) + "hundred and" + str(tens_dict[tens_part_rest])
+                else:
+                    return str(numbers_list[hundreds_part]) + "hundred and" + str(tens_dict[(tens_part_rest // 10) * 10]) + " " + str(numbers_list[tens_part_rest % 10])
+
 if __name__ == "__main__":
+    total_used_letter_count = 0
     for index in range(1,1000):
-        print(index)
-        print(num_2_let(index))
+        element = num_2_let(index)
+        count = (len(element.replace(" ", "")))
+        total_used_letter_count += count
+    print(total_used_letter_count)
