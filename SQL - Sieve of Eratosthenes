@@ -1,0 +1,41 @@
+with max_sq as(select level as lvl from dual
+connect by level <= 1000),
+high_tab as (select lvl, (lvl*lvl) as q from max_sq
+where (lvl*lvl)<= 1000 and lvl >= 2
+order by 2 desc), base_tab as (
+select level x from dual
+connect by level <= 1000), multiple as(
+select distinct checkx from (select
+lvl, case
+when mod(x, lvl) != 0 then NULL
+else x
+end as checkx
+from base_tab, high_tab)
+where checkx is not NULL), p_tab as(
+select y from (select level y from dual
+connect by level <= 1000)
+where y not in (select * from multiple)), p2_tab as(
+select * from (
+select level z from dual
+connect by level <= 31)
+where
+z >=2 and
+mod(z,2) != 0
+and
+mod(z,3) != 0
+and
+mod(z,5) != 0
+and
+mod(z,7) != 0), last_tab as(
+select 2 as x from dual
+union
+select 3 x from dual
+union
+select 5 x from dual
+union
+select 7 x from dual
+union
+select * from p_tab where y > 1
+union
+select * from p2_tab
+order by 1)select listagg(x, '&') within group(order by x) from last_tab;
