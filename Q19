@@ -1,0 +1,23 @@
+months = {'January': 31, 'February': 28, 'March': 31 ,'April': 30, 'May': 31, 'June': 30, 'July': 31, 'August': 31, 'September': 31, 'October': 31, 'November': 30, 'December': 31}
+
+index = 0
+rest = 0
+sundays = 0
+for y in range(100):
+    if y % 4 == 0:
+        months['February'] = 29
+        for i in months:
+            if rest == 6:
+                sundays += 1
+            rest = (rest + months[i]) % 7
+
+            index += (rest + months[i]) // 7
+    else:
+        for i in months:
+            if rest == 6:
+                sundays += 1
+            rest = (rest + months[i]) % 7
+            index += (rest + months[i]) // 7
+
+print(sundays)
+
